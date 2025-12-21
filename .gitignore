@@ -1,0 +1,61 @@
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.docuser
+
+# Rider
+.idea/
+
+# User-specific files
+*.rsuser
+*.userosscache
+
+# NuGet
+*.nupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+
+# Build logs
+*.log
+msbuild*.wrn
+msbuild*.err
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+TestResult.xml
+
+# dotnet tool manifest - keep this
+!.config/
+
+# Local environment settings
+appsettings.Development.json
+appsettings.Local.json
+*.local.json
+
+# SQLite database files (if using SQLite for dev)
+*.db
+*.sqlite
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
