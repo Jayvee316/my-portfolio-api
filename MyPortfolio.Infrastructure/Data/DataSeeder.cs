@@ -26,6 +26,8 @@ public static class DataSeeder
         await SeedProjectsAsync(context);
         await SeedSkillsAsync(context);
         await SeedTodosAsync(context);
+        await SeedCategoriesAsync(context);
+        await SeedProductsAsync(context);
     }
 
     private static async Task SeedUsersAsync(AppDbContext context)
@@ -210,6 +212,229 @@ public static class DataSeeder
         };
 
         context.Todos.AddRange(todos);
+        await context.SaveChangesAsync();
+    }
+
+    private static async Task SeedCategoriesAsync(AppDbContext context)
+    {
+        if (await context.Categories.AnyAsync()) return;
+
+        var categories = new List<Category>
+        {
+            new()
+            {
+                Name = "Electronics",
+                Description = "Gadgets, devices, and electronic accessories",
+                ImageUrl = "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400",
+                IsActive = true
+            },
+            new()
+            {
+                Name = "Clothing",
+                Description = "Fashion apparel for men and women",
+                ImageUrl = "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400",
+                IsActive = true
+            },
+            new()
+            {
+                Name = "Home & Garden",
+                Description = "Furniture, decor, and garden essentials",
+                ImageUrl = "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=400",
+                IsActive = true
+            },
+            new()
+            {
+                Name = "Sports",
+                Description = "Sports equipment and fitness gear",
+                ImageUrl = "https://images.unsplash.com/photo-1461896836934- voices-of-the-earth?w=400",
+                IsActive = true
+            },
+            new()
+            {
+                Name = "Books",
+                Description = "Books, e-books, and educational materials",
+                ImageUrl = "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400",
+                IsActive = true
+            }
+        };
+
+        context.Categories.AddRange(categories);
+        await context.SaveChangesAsync();
+    }
+
+    private static async Task SeedProductsAsync(AppDbContext context)
+    {
+        if (await context.Products.AnyAsync()) return;
+
+        var products = new List<Product>
+        {
+            // Electronics
+            new()
+            {
+                Name = "Wireless Bluetooth Headphones",
+                Description = "Premium noise-canceling wireless headphones with 30-hour battery life and superior sound quality.",
+                Price = 199.99m,
+                SalePrice = 149.99m,
+                StockQuantity = 50,
+                ImageUrl = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
+                Images = new List<string> { "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" },
+                SKU = "ELEC-001",
+                IsActive = true,
+                IsFeatured = true,
+                CategoryId = 1,
+                CreatedAt = DateTime.UtcNow
+            },
+            new()
+            {
+                Name = "Smart Watch Pro",
+                Description = "Advanced smartwatch with health monitoring, GPS, and 7-day battery life.",
+                Price = 349.99m,
+                StockQuantity = 30,
+                ImageUrl = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",
+                Images = new List<string> { "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
+                SKU = "ELEC-002",
+                IsActive = true,
+                IsFeatured = true,
+                CategoryId = 1,
+                CreatedAt = DateTime.UtcNow
+            },
+            new()
+            {
+                Name = "Portable Bluetooth Speaker",
+                Description = "Waterproof portable speaker with 360-degree sound and 12-hour playtime.",
+                Price = 79.99m,
+                SalePrice = 59.99m,
+                StockQuantity = 100,
+                ImageUrl = "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400",
+                Images = new List<string> { "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400" },
+                SKU = "ELEC-003",
+                IsActive = true,
+                IsFeatured = false,
+                CategoryId = 1,
+                CreatedAt = DateTime.UtcNow
+            },
+            // Clothing
+            new()
+            {
+                Name = "Classic Denim Jacket",
+                Description = "Timeless denim jacket with modern fit. Perfect for casual occasions.",
+                Price = 89.99m,
+                StockQuantity = 45,
+                ImageUrl = "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=400",
+                Images = new List<string> { "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=400" },
+                SKU = "CLTH-001",
+                IsActive = true,
+                IsFeatured = true,
+                CategoryId = 2,
+                CreatedAt = DateTime.UtcNow
+            },
+            new()
+            {
+                Name = "Premium Cotton T-Shirt",
+                Description = "Soft, breathable 100% organic cotton t-shirt available in multiple colors.",
+                Price = 29.99m,
+                SalePrice = 24.99m,
+                StockQuantity = 200,
+                ImageUrl = "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400",
+                Images = new List<string> { "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" },
+                SKU = "CLTH-002",
+                IsActive = true,
+                IsFeatured = false,
+                CategoryId = 2,
+                CreatedAt = DateTime.UtcNow
+            },
+            // Home & Garden
+            new()
+            {
+                Name = "Modern Table Lamp",
+                Description = "Elegant minimalist table lamp with adjustable brightness and warm lighting.",
+                Price = 69.99m,
+                StockQuantity = 35,
+                ImageUrl = "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400",
+                Images = new List<string> { "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400" },
+                SKU = "HOME-001",
+                IsActive = true,
+                IsFeatured = true,
+                CategoryId = 3,
+                CreatedAt = DateTime.UtcNow
+            },
+            new()
+            {
+                Name = "Indoor Plant Set",
+                Description = "Set of 3 low-maintenance indoor plants with decorative pots.",
+                Price = 49.99m,
+                SalePrice = 39.99m,
+                StockQuantity = 25,
+                ImageUrl = "https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=400",
+                Images = new List<string> { "https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=400" },
+                SKU = "HOME-002",
+                IsActive = true,
+                IsFeatured = false,
+                CategoryId = 3,
+                CreatedAt = DateTime.UtcNow
+            },
+            // Sports
+            new()
+            {
+                Name = "Yoga Mat Premium",
+                Description = "Extra thick non-slip yoga mat with carrying strap. Perfect for all yoga styles.",
+                Price = 45.99m,
+                StockQuantity = 60,
+                ImageUrl = "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=400",
+                Images = new List<string> { "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=400" },
+                SKU = "SPRT-001",
+                IsActive = true,
+                IsFeatured = true,
+                CategoryId = 4,
+                CreatedAt = DateTime.UtcNow
+            },
+            new()
+            {
+                Name = "Resistance Bands Set",
+                Description = "Complete set of 5 resistance bands with different strengths for home workouts.",
+                Price = 24.99m,
+                StockQuantity = 80,
+                ImageUrl = "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=400",
+                Images = new List<string> { "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=400" },
+                SKU = "SPRT-002",
+                IsActive = true,
+                IsFeatured = false,
+                CategoryId = 4,
+                CreatedAt = DateTime.UtcNow
+            },
+            // Books
+            new()
+            {
+                Name = "The Art of Programming",
+                Description = "Comprehensive guide to modern programming practices and design patterns.",
+                Price = 39.99m,
+                SalePrice = 29.99m,
+                StockQuantity = 40,
+                ImageUrl = "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400",
+                Images = new List<string> { "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400" },
+                SKU = "BOOK-001",
+                IsActive = true,
+                IsFeatured = true,
+                CategoryId = 5,
+                CreatedAt = DateTime.UtcNow
+            },
+            new()
+            {
+                Name = "Business Strategy Essentials",
+                Description = "Learn the fundamentals of business strategy from industry experts.",
+                Price = 34.99m,
+                StockQuantity = 55,
+                ImageUrl = "https://images.unsplash.com/photo-1589998059171-988d887df646?w=400",
+                Images = new List<string> { "https://images.unsplash.com/photo-1589998059171-988d887df646?w=400" },
+                SKU = "BOOK-002",
+                IsActive = true,
+                IsFeatured = false,
+                CategoryId = 5,
+                CreatedAt = DateTime.UtcNow
+            }
+        };
+
+        context.Products.AddRange(products);
         await context.SaveChangesAsync();
     }
 }

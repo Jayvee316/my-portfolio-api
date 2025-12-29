@@ -181,7 +181,12 @@ builder.Services.AddAuthorization();
 // - Access-Control-Allow-Credentials: true
 // ----------------------------------------------------------------------------------------------------------
 var allowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")?.Split(',')
-    ?? new[] { "http://localhost:4200", "http://localhost:4201", "https://localhost:4200" };
+    ?? new[] {
+        "http://localhost:4200",
+        "http://localhost:4201",
+        "https://localhost:4200",
+        "http://localhost:53870"  // jayvee-dashboard-1 dev port
+    };
 
 builder.Services.AddCors(options =>
 {
@@ -274,16 +279,34 @@ builder.Services.AddSwaggerGen(options =>
 var app = builder.Build();
 
 // ==========================================================================================================
-// SECTION 2: DATABASE SEEDING
+// SECTION 2: AUTO-APPLY DATABASE MIGRATIONS
+// ==========================================================================================================
+// Automatically applies any pending Entity Framework migrations when the app starts.
+// This ensures the database schema is always up-to-date with your entity models.
+//
+// Benefits:
+// - No need to manually run "dotnet ef database update" after deployment
+// - Database schema stays in sync with code automatically
+//
+// Note: For large production apps with multiple instances, consider using a separate
+// migration job or CI/CD pipeline instead to avoid race conditions.
+// ==========================================================================================================
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();
+}
+
+// ==========================================================================================================
+// SECTION 3: DATABASE SEEDING
 // ==========================================================================================================
 // Seeds initial data into the database (users, posts, etc.)
-// Also applies any pending migrations automatically.
-// This runs once when the app starts.
+// This runs once when the app starts (after migrations are applied).
 // ==========================================================================================================
 await DataSeeder.SeedAsync(app.Services);
 
 // ==========================================================================================================
-// SECTION 3: MIDDLEWARE PIPELINE CONFIGURATION
+// SECTION 4: MIDDLEWARE PIPELINE CONFIGURATION
 // ==========================================================================================================
 // Middleware are components that process HTTP requests and responses.
 // They execute in ORDER - the order you add them matters!
