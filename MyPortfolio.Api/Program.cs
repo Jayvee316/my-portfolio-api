@@ -212,6 +212,9 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+// Register HttpClient factory for external API calls (GitHub, etc.)
+builder.Services.AddHttpClient();
+
 // Register controllers (the classes that handle HTTP requests)
 builder.Services.AddControllers();
 
