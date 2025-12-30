@@ -16,6 +16,15 @@ public class GitHubController : ControllerBase
     {
         _httpClient = httpClientFactory.CreateClient();
         _httpClient.DefaultRequestHeaders.Add("User-Agent", "MyPortfolio-API");
+
+        // Add GitHub token if available (increases rate limit from 60 to 5000 requests/hour)
+        var githubToken = Environment.GetEnvironmentVariable("GITHUB_TOKEN")
+            ?? configuration["GitHub:Token"];
+        if (!string.IsNullOrEmpty(githubToken))
+        {
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {githubToken}");
+        }
+
         _configuration = configuration;
         _githubUsername = Environment.GetEnvironmentVariable("GITHUB_USERNAME")
             ?? _configuration["GitHub:Username"]
